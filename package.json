@@ -16,12 +16,15 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "@aws-amplify/ui-vue": "^0.2.33",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "aws-amplify": "^3.3.14",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "graphql-tag": "^2.11.0",
     "vue-cli-plugin-tailwind": "~2.0.5",
     "vue-template-compiler": "^2.6.11"
   },
