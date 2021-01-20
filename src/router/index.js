@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Root from '../views/Root.vue'
+import AuthMiddleware  from './auth.guard'
 
 Vue.use(VueRouter)
 
@@ -32,5 +33,7 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+router.beforeEach(AuthMiddleware)
 
 export default router
