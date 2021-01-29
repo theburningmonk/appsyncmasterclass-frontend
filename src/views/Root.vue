@@ -21,7 +21,15 @@
     </div>
 
     <!-- right side -->
-    <div class="flex w-1/2 h-full">Right</div>
+    <div class="flex w-1/2 h-full">
+      <div class="flex flex-col w-1/2 font-bold">
+        <i class="fab fa-twitter text-blue text-4xl mb-5"></i>
+        <p class="text-3xl mb-12">See what's happening in the world right now</p>
+        <p>Join Twitter today.</p>
+        <button class="rounded-full bg-blue font-bold text-lg text-white mt-4 p-3 hover:bg-darkblue">Sign up</button>
+        <button class="rounded-full border border-blue bg-white font-bold text-lg text-blue mt-4 p-3 hover:bg-lightblue">Log in</button>
+      </div>
+    </div>
   </div>
 </template>
 
