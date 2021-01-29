@@ -27,7 +27,7 @@
         <p class="text-3xl mb-12">See what's happening in the world right now</p>
         <p>Join Twitter today.</p>
         <button class="rounded-full bg-blue font-bold text-lg text-white mt-4 p-3 hover:bg-darkblue">Sign up</button>
-        <button class="rounded-full border border-blue bg-white font-bold text-lg text-blue mt-4 p-3 hover:bg-lightblue">Log in</button>
+        <button @click.prevent="showSignInPage" class="rounded-full border border-blue bg-white font-bold text-lg text-blue mt-4 p-3 hover:bg-lightblue">Log in</button>
       </div>
     </div>
   </div>
@@ -36,6 +36,11 @@
 <script>
 export default {
   name: 'Root',
+  methods: {
+    showSignInPage() {
+      this.$router.push('LogIn')
+    }
+  }
 }
 </script>
 
