@@ -5,3 +5,7 @@
 button:focus, input:focus {
   outline: none;
 }
+
+.modal-main {
+  height: 40rem;
+}
