@@ -35,7 +35,32 @@
     <div v-if="showModal != ''" class="fixed w-full h-full top-0 left-0 flex items-center justify-center">
       <div class="absolute w-full h-full bg-gray-900 opacity-50" @click.prevent="setSignupStep('')"></div>
 
-      <div class="modal-main bg-white w-11/12 mx-auto rounded-lg z-50 overflow-y-auto max-h-full">Modal</div>
+      <div class="modal-main bg-white w-11/12 mx-auto rounded-lg z-50 overflow-y-auto max-h-full">
+        <div v-if="showModal === 'step1'">
+          <div class="pl-1 pr-4 py-1 h-12">
+            <button @click="setSignupStep('step2')" class="rounded-full bg-blue font-bold text-white mt-2 p-1 pl-3 pr-3 relative right-0 float-right hover:bg-darkblue" :class="`${!name || !email || !birthdate ? 'opacity-50 cursor-not-allowed':''}`">Next</button>
+            <i class="flex justify-center fab fa-twitter text-blue text-2xl mt-2 mb-8"></i>
+          </div>
+          <div class="pt-5 px-8">
+            <div class="flex justify-between items-center pb-8">
+              <p class="text-2xl font-bold">Create your account</p>
+            </div>
+            <div class="w-full bg-lightblue border-b-2 border-dark mb-8 p-2">
+              <p class="text-dark">Name</p>
+              <input v-model="name" class="w-full bg-lightblue text-lg" type="text">
+            </div>
+            <div class="w-full bg-lightblue border-b-2 border-dark mb-8 p-2">
+              <p class="text-dark">Email</p>
+              <input v-model="email" class="w-full bg-lightblue text-lg" type="text">
+            </div>
+            <p class="font-bold">Date of birth</p>
+            <p class="text-dark">This will not be shown publicly. Confirm your own age, even if this account is for business, a pet, or something else.</p>
+            <div class="w-full bg-lightblue border-b-2 border-dark mb-8 p-2">
+              <input v-model="birthdate" class="w-full bg-lightblue text-lg" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -45,6 +70,13 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Root',
+  data() {
+    return {
+      name: '',
+      email: '',
+      birthdate: '',
+    }
+  },
   computed: {
     ...mapGetters('signup', [
       'showModal'
