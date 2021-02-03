@@ -37,7 +37,7 @@
     <div v-if="showModal != ''" class="fixed w-full h-full top-0 left-0 flex items-center justify-center">
       <div class="absolute w-full h-full bg-gray-900 opacity-50" @click.prevent="setSignUpStep('')"></div>
 
-      <div class="modal-main bg-white w-11/12 mx-auto rounded-lg z-50 overflow-y-auto max-h-full">
+      <div class="modal-main bg-white w-11/12 max-w-md mx-auto rounded-lg z-50 overflow-y-auto max-h-full">
         <div v-if="showModal === 'step1'">
           <div class="pl-1 pr-4 py-1 h-12">
             <button @click="setSignUpStep('step2')" class="rounded-full bg-blue font-bold text-white mt-2 p-1 pl-3 pr-3 relative right-0 float-right hover:bg-darkblue" :class="`${!name || !email || !birthdate ? 'opacity-50 cursor-not-allowed':''}`">Next</button>
