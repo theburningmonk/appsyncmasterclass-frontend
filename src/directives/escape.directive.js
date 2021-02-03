@@ -6,7 +6,7 @@ export default {
         binding.value(event, el);
       }
     }
-    el.addEventListener('keyup, el.__callback__');
+    el.addEventListener('keyup', el.__callback__);
   },
   unbind: function(el) {
     el.removeEventListener('keyup', el.__callback__);

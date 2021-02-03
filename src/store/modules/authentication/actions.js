@@ -20,6 +20,6 @@ export default {
         name: form.name,
       }
     });
-    commit("USER SIGNUP", user);
+    commit("USER_SIGNUP", user);
   },
 }
