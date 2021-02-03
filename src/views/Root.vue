@@ -286,13 +286,3 @@ export default {
   },
 }
 </script>
-
-<style>
-div {
-  border: 1px dashed blue;
-  padding: 15px;
-}
-div.items-center.justify-center {
-  background-color: rgba(240, 240, 240, 0.5);
-}
-</style>
