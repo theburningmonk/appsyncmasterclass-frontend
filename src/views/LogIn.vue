@@ -4,7 +4,7 @@
     <p class="font-bold text-2xl mb-4">Log in to Twitter</p>
     <div class="w-1/3 bg-lightblue border-b-2 border-dark mb-4 p-2">
       <p class="text-dark">Phone, email, or username</p>
-      <input v-model="email" class="w-full bg-lightblue text-lg" type="text">
+      <input v-model="email" class="w-full bg-lightblue text-lg" type="text" ref="email">
     </div>
     <div class="w-1/3 bg-lightblue border-b-2 border-dark mb-4 p-2">
       <p class="text-dark">Password</p>
@@ -22,6 +22,9 @@ export default {
       email: '',
       password: ''
     }
+  },
+  created: function() {
+    this.$nextTick(() => this.$refs.email.focus())
   }
 }
 </script>
