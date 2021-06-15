@@ -33,6 +33,7 @@ export default {
   async signInUser({ dispatch }, form) {
     const user = await Auth.signIn(form.email, form.password);
     await dispatch("loginUser", user);
+    await dispatch("twitter/setProfile", null, { root: true });
     router.push({ name: 'Home' });
   }
 }
