@@ -35,5 +35,14 @@ export default {
     await dispatch("loginUser", user);
     await dispatch("twitter/setProfile", null, { root: true });
     router.push({ name: 'Home' });
-  }
-}
+  },
+
+  async loginUserIfAlreadyAuthenticated({ dispatch }) {
+    const user = await Auth.currentUserInfo();
+    if (user) {
+      console.log('user is logged in already')
+      await dispatch("loginUser", user);
+      await dispatch("twitter/setProfile", null, { root: true });
+    }
+  },
+};

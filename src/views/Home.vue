@@ -46,6 +46,7 @@
 <script>
 import SideNav from '../components/SideNav.vue'
 import DefaultRightBar from '../components/DefaultRightBar.vue'
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'Home',
@@ -61,5 +62,18 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapGetters('twitter', [
+      'profile',
+    ]),
+  },
+  methods: {
+    ...mapActions('authentication', [
+      'loginUserIfAlreadyAuthenticated'
+    ]),
+  },
+  async created() {
+    await this.loginUserIfAlreadyAuthenticated();
+  }
 }
 </script>
