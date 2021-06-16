@@ -19,19 +19,19 @@
     </div>
     <div class="lg:w-full relative">
       <button @click="dropdown = !dropdown" class="flex items-center w-full hover:bg-lightblue rounded-full p-2">
-        <img :src="'default_profile.png'" class="w-10 h-10 rounded-full" />
+        <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="w-10 h-10 rounded-full" />
         <div class="hidden lg:block ml-4 truncate">
-          <div class="text-left text-sm font-bold leading-tight truncate">User</div>
-          <div class="text-left text-sm leading-tight text-dark truncate">ScreenName</div>
+          <div class="text-left text-sm font-bold leading-tight truncate">{{ profile.name }}</div>
+          <div class="text-left text-sm leading-tight text-dark truncate">{{ profile.ScreenName }}</div>
         </div>
         <i class="hidden lg:block fas fa-angle-down ml-auto text-lg"></i>
       </button>
       <div v-if="dropdown === true" class="absolute bottom-0 left-0 w-64 rounded-lg shadow-md border-lightest bg-white mb-16">
         <button @click="dropdown = false" class="p-3 flex items-center w-full hover:bg-lightest">
-          <img :src="'default_profile.png'" class="w-10 h-10 rounded-full" />
+          <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="w-10 h-10 rounded-full" />
           <div class="ml-4">
-            <p class="text-left text-sm font-bold leading-tight">User</p>
-            <p class="text-left text-sm leading-tight text-dark">ScreenName</p>
+            <p class="text-left text-sm font-bold leading-tight">{{ profile.name }}</p>
+            <p class="text-left text-sm leading-tight text-dark">{{ profile.ScreenName }}</p>
           </div>
           <i class="fas fa-check ml-auto text-blue"></i>
         </button>
@@ -39,7 +39,7 @@
           Add an existing account
         </button>
         <button class="w-full text-left hover:bg-lightest border-t border-lighter p-3 text-sm">
-          Log out ScreenName
+          Log out {{ profile.ScreenName }}
         </button>
       </div>
     </div>
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'SideNav',
   data() {
@@ -64,5 +66,10 @@ export default {
       dropdown: false,
     }
   },
+  computed: {
+    ...mapGetters('twitter', [
+      'profile',
+    ]),
+  }
 }
 </script>
