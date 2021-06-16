@@ -38,7 +38,7 @@
         <button class="w-full text-left hover:bg-lightest border-t border-lighter p-3 text-sm">
           Add an existing account
         </button>
-        <button class="w-full text-left hover:bg-lightest border-t border-lighter p-3 text-sm">
+        <button @click="signOut" class="w-full text-left hover:bg-lightest border-t border-lighter p-3 text-sm">
           Log out {{ profile.ScreenName }}
         </button>
       </div>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'SideNav',
@@ -70,6 +70,20 @@ export default {
     ...mapGetters('twitter', [
       'profile',
     ]),
+  },
+  methods: {
+    ...mapActions('authentication', [
+      'logoutUser',
+    ]),
+    async signOut() {
+      try {
+        console.log('signing out...')
+        await this.logoutUser();
+      } catch(error) {
+        alert('Error signing out, please check console for error detail')
+        console.log('error signing out: ', error)
+      }
+    },
   }
 }
 </script>
