@@ -8,6 +8,10 @@ const state = () => ({
     createdAt: '1970-01-01',
     imageUrl: 'default_profile.png',
   },
+  tweets: {
+    tweets: [],
+    nextToken: undefined,
+  }
 });
 
 export default {
