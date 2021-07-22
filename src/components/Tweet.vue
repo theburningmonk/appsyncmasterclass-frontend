@@ -1,13 +1,13 @@
 <template>
   <div class="w-full p-4 border-b hover:bg-lightest flex">
-    <div class="flex-none mr-4">
+    <div v-if="tweet.profile" class="flex-none mr-4">
       <img :src="`${tweet.profile.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full flex-none"/>
     </div>
     <div class="w-full">
       <div class="flex items-center w-full">
         <p class="font-semibold">{{ tweet.profile.name }}</p>
         <p class="text-sm text-dark ml-2">@{{ tweet.profile.screenName }}</p>
-        <p class="text-sm text-dark ml-2">{{ tweet.time }}</p>
+        <p class="text-sm text-dark ml-2">{{ tweet.createdAt | timeago }}</p>
         <i class="fas fa-angle-down text-sm ml-auto"></i>
       </div>
       <p v-if="tweet.inReplyToUser" class="text-dark">
