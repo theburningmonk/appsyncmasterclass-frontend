@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full p-4 border-b hover:bg-lightest flex">
-    <div v-if="tweet.profile" class="flex-none mr-4">
+  <div v-if="tweet.profile" class="w-full p-4 border-b hover:bg-lightest flex">
+    <div class="flex-none mr-4">
       <img :src="`${tweet.profile.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full flex-none"/>
     </div>
     <div class="w-full">
@@ -10,9 +10,6 @@
         <p class="text-sm text-dark ml-2">{{ tweet.createdAt | timeago }}</p>
         <i class="fas fa-angle-down text-sm ml-auto"></i>
       </div>
-      <p v-if="tweet.inReplyToUser" class="text-dark">
-        Replying to @{{ tweet.inReplyToUser.screenName }}
-      </p>
       <p class="pb-2">
         {{ tweet.text }}
       </p>
@@ -24,13 +21,13 @@
           <p v-if="tweet.replies > 0"> {{ tweet.replies }} </p>
         </div>
         <div class="flex items-center text-sm text-dark w-1/4">
-          <button class="mr-2 rounded-full hover:bg-lighter">
+          <button @click="retweetTweet()" class="mr-2 rounded-full hover:bg-lighter">
             <i :class="`fas fa-retweet ${ tweet.retweeted ? 'text-green-500' : '' }`"></i>
           </button>
           <p v-if="tweet.retweets > 0"> {{ tweet.retweets }} </p>
         </div>
         <div class="flex items-center text-sm text-dark w-1/4">
-          <button class="mr-2 rounded-full hover:bg-lighter">
+          <button @click="likeTweet()" class="mr-2 rounded-full hover:bg-lighter">
             <i :class="`fas fa-heart ${ tweet.liked ? 'text-red-600' : '' }`"></i>
           </button>
           <p v-if="tweet.likes > 0"> {{ tweet.likes }} </p>
@@ -40,12 +37,63 @@
         </div>
       </div>
     </div>
-  </div>   
+  </div>  
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   name: 'Tweet',
   props: ['tweet'],
+  methods: {
+    ...mapActions('twitter', {
+      like: 'likeTweet',
+      unlike: 'unlikeTweet',
+      retweet: 'retweetTweet',
+      unretweet: 'unretweetTweet',
+    }),
+    async retweetTweet() {
+      if (!this.tweet.retweeted) {
+        this.tweet.retweeted = true
+        this.tweet.retweets++
+        await this.retweet(this.tweet.id)
+        .catch(err => {
+          console.error(`failed to retweet [${this.tweet.id}]`, err)
+          this.tweet.retweeted = false
+          this.tweet.retweets--
+        })
+      } else {
+        this.tweet.retweeted = false
+        this.tweet.retweets--
+        await this.unretweet(this.tweet.id)
+        .catch(err => {
+          console.error(`failed to unretweet [${this.tweet.id}]`, err)
+          this.tweet.retweeted = true
+          this.tweet.retweets++
+        })        
+      }
+    },
+    async likeTweet() {
+      if (!this.tweet.liked) {
+        this.tweet.liked = true
+        this.tweet.likes++
+        await this.like(this.tweet.id)
+        .catch(err => {
+          console.error(`failed to like tweet [${this.tweet.id}]`, err)
+          this.tweet.liked = false
+          this.tweet.likes--
+        })
+      } else {
+        this.tweet.liked = false
+        this.tweet.likes--
+        await this.unlike(this.tweet.id)
+        .catch(err => {
+          console.error(`failed to unlike tweet [${this.tweet.id}]`, err)
+          this.tweet.liked = true
+          this.tweet.likes++
+        })
+      }
+    }
+  }
 }
 </script>
