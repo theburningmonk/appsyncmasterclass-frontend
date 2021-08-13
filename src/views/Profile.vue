@@ -4,7 +4,92 @@
       <SideNav />
 
       <div class="w-1/2 h-full overflow-y-scroll">
-        Profile
+        <div class="px-5 py-3 border-b border-lighter flex items-center">
+          <button class="rounded-full p-3 px-4 focus:outline-none hover:bg-lightblue">
+            <i class="fas fa-arrow-left text-blue"></i>
+          </button>
+          <div class="lg:block ml-4">
+            <h1 class="text-xl font-bold">{{ profile.name }}</h1>
+            <p class="text-left text-sm leading-tight text-dark">{{ profile.tweetsCount }} Tweets</p>
+          </div>
+        </div>
+
+        <!-- background image -->
+        <div class="border-b-1 border-lighter flex"
+            style="height:200px; display:block">
+          <div v-if="profile.backgroundImageUrl" class="h-full max-h-full">
+            <img :src="profile.backgroundImageUrl" class="h-full w-full object-cover"/>
+          </div>
+          <div v-if="!profile.backgroundImageUrl"
+              class="bg-gray-400 h-full max-h-full">          
+          </div>
+        </div>
+
+        <!-- profile details -->
+        <div class="p-3 flex flex-col">
+          <div class="flex flex-row justify-between">
+            <img :src="profile.imageUrl" 
+                class="w-32 h-32 rounded-full border-white border-4"
+                style="margin-top:-80px"/>
+
+            <div v-if="isSelf">
+              <button v-if="profile.imageUrl === null || profile.imageUrl === 'default_profile.png'"
+                      class="ml-auto text-blue font-bold px-4 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+                Set up profile
+              </button>
+              <button v-if="profile.imageUrl !== null && profile.imageUrl !== 'default_profile.png'"
+                      class="ml-auto text-blue font-bold px-4 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+                Edit profile
+              </button>
+            </div>
+
+            <div v-if="!isSelf">
+              <button class="ml-auto mr-3 text-blue font-bold px-3 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+                <i class="fas fa-ellipsis-h"></i>
+              </button>
+              <button class="ml-auto mr-3 text-blue font-bold px-3 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+                <i class="fas fa-envelope"></i>
+              </button>
+              <button v-if="!profile.following"
+                      class="ml-auto text-blue font-bold px-4 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+                Follow
+              </button>
+              <button v-if="profile.following"
+                      @mouseover="followingLabel='Unfollow'"
+                      @mouseleave="followingLabel='Following'"
+                      class="ml-auto text-white bg-blue font-bold px-4 py-2 rounded-full border mb-2 hover:bg-red-700">
+                {{ followingLabel }}
+              </button>
+            </div>
+          </div>
+          <div>
+            <p class="font-bold text-xl">{{profile.name}}</p>
+            <p class="text-dark">@{{profile.screenName}}</p>
+            <p class="my-2">{{profile.bio}}</p>
+            <div class="flex flex-row mt-1 mb-2">
+              <div v-if="profile.location" class="flex flex-row mr-4">
+                <i class="fas fa-map-marker-alt text-dark align-text-bottom pt-1 mr-2" ></i>
+                <p class="text-dark">{{profile.location}}</p>
+              </div>
+              <div v-if="profile.website" class="flex flex-row mr-4">
+                <i class="fas fa-link text-dark align-text-bottom pt-1 mr-2" ></i>
+                <a :href="`${profile.website}`" target="_blank" class="text-dark">{{profile.website.replace('https://', '').replace('http://', '')}}</a>
+              </div>
+              <i class="far fa-calendar-alt text-dark align-text-bottom pt-1 mr-2"></i>
+              <p class="text-dark">Joined {{joinedDate}}</p>
+            </div>
+            <div class="flex flex-row mt-1">
+              <button class="mr-4 flex flex-row hover:underline">
+                <span class="font-bold">{{profile.followingCount}}</span>
+                <span class="text-dark whitespace-pre"> Following</span>
+              </button>
+              <button class="flex flex-row hover:underline">
+                <span class="font-bold">{{profile.followersCount}}</span>
+                <span class="text-dark whitespace-pre"> Followers</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="hidden md:block w-1/3 z-0 h-full border-l border-lighter px-6 py-2 overflow-y-scroll relative">
@@ -17,11 +102,43 @@
 <script>
 import SideNav from '../components/SideNav.vue'
 import SearchBar from '../components/SearchBar.vue'
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'Profile',
   components: {
     SideNav,
-    SearchBar
+    SearchBar,
+  },
+  data() {
+    return {
+      isSelf: false,
+      followingLabel: 'Following',
+    }
+  },
+  computed: {
+    ...mapGetters('twitter', {
+      userProfile: 'profile',
+      isMySelf: 'isSelf',
+    }),
+    ...mapGetters('profilePage', [
+      'profile', 
+      'joinedDate',
+    ]),
+  },
+  methods: {
+    ...mapActions('authentication', [
+      'loginUserIfAlreadyAuthenticated', 
+    ]),
+    ...mapActions('profilePage', [
+      'loadProfile',
+    ]),
+  },
+  async created() {
+    await this.loginUserIfAlreadyAuthenticated();
+    const screenName = this.$route.params.screenName;
+    this.isSelf = this.isMySelf(screenName);
+    await this.loadProfile(screenName);
   },
 }
 </script>
