@@ -1,11 +1,11 @@
 import {
   getMyProfile, getProfileByScreenName,
-  getMyTimeline, tweet,
+  getMyTimeline, tweet, getTweets,
   like, unlike, retweet, unretweet, reply
 } from '../../../lib/backend'
 
 export default {
-  async setProfile({ commit, dispatch }) {
+  async setProfile({ commit }) {
     const profile = await getMyProfile();
     commit("PROFILE_SET", profile);
   },
@@ -25,6 +25,17 @@ export default {
     await dispatch("getMyTimeline", 10);
   },
 
+  async loadTweets({ dispatch, rootState }, screenName) {
+    if (!screenName) return;
+
+    if (rootState.twitter.profile.screenName == screenName) {
+      await dispatch("getTweets", { userId: rootState.twitter.profile.id, limit: 10 });
+    } else {
+      const profile = await getProfileByScreenName(screenName);
+      await dispatch("getTweets", { userId: profile.id, limit: 10 });
+    }
+  },
+
   async getMyTimeline({ commit }, limit) {
     const timeline = await getMyTimeline(limit);
     commit("TWITTER_TIMELINE", timeline);
@@ -33,6 +44,11 @@ export default {
     const newTweet = await tweet(text);
     commit("TWITTER_CREATE", newTweet);
     await dispatch("getMyTimeline", 10);
+  },
+
+  async getTweets({ commit }, { userId, limit }) {
+    const tweets = await getTweets(userId, limit);
+    commit("TWITTER_TIMELINE", tweets);
   },
 
   async likeTweet(_, tweetId) {
