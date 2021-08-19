@@ -7,7 +7,6 @@ import {
 export default {
   async setProfile({ commit, dispatch }) {
     const profile = await getMyProfile();
-    await dispatch("getMyTimeline", 10);
     commit("PROFILE_SET", profile);
   },
 
@@ -20,6 +19,10 @@ export default {
       const profile = await getProfileByScreenName(screenName);
       commit("PROFILE_SET", profile);
     }
+  },
+
+  async loadMyTimeline({ dispatch }) {
+    await dispatch("getMyTimeline", 10);
   },
 
   async getMyTimeline({ commit }, limit) {
