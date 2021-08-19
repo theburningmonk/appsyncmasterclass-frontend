@@ -14,6 +14,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'Tweets',
+  props: ['tweets'],
   components: {
     Tweet,
     Retweet
@@ -23,8 +24,7 @@ export default {
       nextToken: 'nextTokenTweets'
     }),
     ...mapGetters('twitter', [
-      'profile', 
-      'tweets', 
+      'profile',
     ]),    
   }
 }

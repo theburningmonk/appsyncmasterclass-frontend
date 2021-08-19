@@ -36,7 +36,7 @@
           </button>
         </div>
 
-        <Tweets />
+        <Tweets :tweets="tweets" />
           
       </div>
     </div>
