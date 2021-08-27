@@ -1,6 +1,6 @@
 <template>
   <div v-if="showReplyOverlay" class="fixed w-full h-full z-10 top-0 left-0 flex items-center justify-center">
-    <div class="absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="absolute w-full h-full bg-gray-900 opacity-50" @click.prevent="$emit('update:showReplayOverlay', false);"></div>
 
     <div class="modal-main bg-white mx-auto rounded-lg z-0 overflow-y-auto" style="width:40%">
       <div class="pl-1 pr-4 py-1 h-16 border-b-2 border-lightblue">
@@ -77,5 +77,15 @@ export default {
       this.$emit('update:showReplyOverlay', false);
     }
   },
+  created() {
+    window.addEventListener('keyup', () => {
+      if (event.keyCode === 27) this.$emit('update:showReplyOverlay', false);
+    })
+  },
+  destroyed: function() {
+    window.removeEventListener('keyup', () => {
+      if (event.keyCode === 27) this.$emit('update:showReplyOverlay', false);
+    })
+  }
 }
 </script>

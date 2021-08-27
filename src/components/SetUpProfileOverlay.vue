@@ -1,6 +1,6 @@
 <template>
   <div class="fixed w-full h-full top-0 left-0 flex items-center justify-center">
-    <div class="absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="absolute w-full h-full bg-gray-900 opacity-50" @click.prevent="$emit('update:showSetUpProfileModal', false);"></div>
 
     <div class="modal-main bg-white mx-auto rounded-lg z-50 overflow-y-auto" style="height:60%; width:40%">
       <div class="pl-1 pr-4 py-1 h-12">
@@ -90,5 +90,15 @@ export default {
       this.$emit('update:showSetUpProfileModal', false);
     },
   },
+  created() {
+    window.addEventListener('keyup', () => {
+      if (event.keyCode === 27) this.$emit('update:showSetUpProfileModal', false);
+    })
+  },
+  destroyed: function() {
+    window.removeEventListener('keyup', () => {
+      if (event.keyCode === 27) this.$emit('update:showSetUpProfileModal', false);
+    })
+  }
 }
 </script>
