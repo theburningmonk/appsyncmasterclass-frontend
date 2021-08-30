@@ -53,20 +53,22 @@
                 <i class="fas fa-envelope"></i>
               </button>
               <button v-if="!profile.following"
-                      class="ml-auto text-blue font-bold px-4 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+                      @click="followUser()" 
+                      class="ml-auto text-blue font-bold px-4 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue" style="width:108px;">
                 Follow
               </button>
               <button v-if="profile.following"
                       @mouseover="followingLabel='Unfollow'"
                       @mouseleave="followingLabel='Following'"
-                      class="ml-auto text-white bg-blue font-bold px-4 py-2 rounded-full border mb-2 hover:bg-red-700">
+                      @click="unfollowUser()"
+                      class="ml-auto text-white bg-blue font-bold px-4 py-2 rounded-full border mb-2 hover:bg-red-700" style="width:108px;">
                 {{ followingLabel }}
               </button>
             </div>
           </div>
           <div>
             <p class="font-bold text-xl">{{profile.name}}</p>
-            <p class="text-dark">@{{profile.screenName}}</p>
+            <p class="text-dark">@{{profile.screenName}}<span v-if="profile.followedBy" class="text-sm font-medium bg-gray-100 py-1 px-1 mx-2 rounded text-gray-500 align-middle">Follows you</span></p>
             <p class="my-2">{{profile.bio}}</p>
             <div class="flex flex-row mt-1 mb-2">
               <div v-if="profile.location" class="flex flex-row mr-4">
@@ -170,11 +172,33 @@ export default {
       'loadProfile',
       'loadTweets'
     ]),
+    ...mapActions('profilePage', { 
+      follow: 'followUser',
+      unfollow: 'unfollowUser',
+    }),
     setUpProfile() {
       this.showSetUpProfileModal = true
     },
     editProfile() {
       this.showEditProfileModal = true
+    },
+    async followUser() {
+      this.profile.following = true;
+      this.profile.followersCount++;
+      await this.follow(this.profile.id).catch(err => {
+        console.error(`failed to follow [${this.profile.id}]`, err);
+        this.profile.following = false;
+        this.profile.followersCount--;
+      })
+    },
+    async unfollowUser() {
+      this.profile.following = false;
+      this.profile.followersCount--;
+      await this.unfollow(this.profile.id).catch(err => {
+        console.error(`failed to unfollow [${this.profile.id}]`, err);
+        this.profile.following = true;
+        this.profile.followersCount++;
+      })
     },
   },
   async created() {
