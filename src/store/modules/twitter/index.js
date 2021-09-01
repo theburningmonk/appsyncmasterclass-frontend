@@ -11,6 +11,14 @@ const state = () => ({
   tweets: {
     tweets: [],
     nextToken: undefined,
+  },
+  followers: {
+    followers: [],
+    nextToken: undefined,
+  },
+  following: {
+    following: [],
+    nextToken: undefined,
   }
 });
 

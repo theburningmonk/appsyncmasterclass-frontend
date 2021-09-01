@@ -3,6 +3,7 @@ import {
   getMyTimeline, tweet, getTweets,
   like, unlike, retweet, unretweet, reply,
   follow, unfollow,
+  getFollowers, getFollowing,
 } from '../../../lib/backend'
 
 export default {
@@ -83,5 +84,14 @@ export default {
   },
   async unfollowUser(_, profileId) {
     await unfollow(profileId);
+  },
+
+  async getFollowers({ commit }, { userId, limit }) {
+    const followers = await getFollowers(userId, limit);
+    commit("TWITTER_FOLLOWERS", followers);
+  },
+  async getFollowing({ commit }, { userId, limit }) {
+    const following = await getFollowing(userId, limit);
+    commit("TWITTER_FOLLOWING", following);
   },
 };
