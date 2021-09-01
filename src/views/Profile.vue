@@ -5,7 +5,7 @@
 
       <div class="w-1/2 h-full overflow-y-scroll">
         <div class="px-5 py-3 border-b border-lighter flex items-center">
-          <button class="rounded-full p-3 px-4 focus:outline-none hover:bg-lightblue">
+          <button @click="gotoHome()" class="rounded-full p-3 px-4 focus:outline-none hover:bg-lightblue">
             <i class="fas fa-arrow-left text-blue"></i>
           </button>
           <div class="lg:block ml-4">
@@ -83,11 +83,11 @@
               <p class="text-dark">Joined {{joinedDate}}</p>
             </div>
             <div class="flex flex-row mt-1">
-              <button class="mr-4 flex flex-row hover:underline">
+              <button @click="goToFollowing()" class="mr-4 flex flex-row hover:underline">
                 <span class="font-bold">{{profile.followingCount}}</span>
                 <span class="text-dark whitespace-pre"> Following</span>
               </button>
-              <button class="flex flex-row hover:underline">
+              <button @click="goToFollowers()" class="flex flex-row hover:underline">
                 <span class="font-bold">{{profile.followersCount}}</span>
                 <span class="text-dark whitespace-pre"> Followers</span>
               </button>
@@ -176,6 +176,27 @@ export default {
       follow: 'followUser',
       unfollow: 'unfollowUser',
     }),
+    gotoHome() {
+      this.$router.push({
+        name: 'Home',
+      })
+    },
+    goToFollowing() {
+      this.$router.push({
+        name: 'Following',
+        params: {
+          screenName: this.profile.screenName
+        }
+      })
+    },
+    goToFollowers() {
+      this.$router.push({
+        name: 'Followers',
+        params: {
+          screenName: this.profile.screenName
+        }
+      })
+    },
     setUpProfile() {
       this.showSetUpProfileModal = true
     },
