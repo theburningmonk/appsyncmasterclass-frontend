@@ -34,9 +34,29 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "home" */ '../views/Profile.vue'),
+    component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue'),
     meta: { protected: true }
-  }
+  },
+  {
+    path: '/:screenName/followers',
+    name: 'Followers',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "followers" */ '../views/Followers.vue'),
+    props: true,
+    meta: { protected: true }
+  },
+  {
+    path: '/:screenName/following',
+    name: 'Following',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "following" */ '../views/Following.vue'),
+    props: true,
+    meta: { protected: true }
+  },
 ]
 
 const router = new VueRouter({
