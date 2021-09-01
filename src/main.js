@@ -10,18 +10,18 @@ import filters from './filters';
 
 Amplify.configure({
   Auth: {
-    region: 'eu-west-1',
-    userPoolId: 'eu-west-1_G0S2EuViF',
-    userPoolWebClientId: '2elpvum0k1l6qpf0iqgeh0jh4q',
-    mandatorySignIn: true
+    region: process.env.VUE_APP_COGNITO_REGION,
+    userPoolId: process.env.VUE_APP_COGNITO_USER_POOL_ID,
+    userPoolWebClientId: process.env.VUE_APP_COGNITO_USER_POOL_WEB_CLIENT_ID,
+    mandatorySignIn: true,
   }
-})
+});
 
 const myAppConfig = {
-  'aws_appsync_graphqlEndpoint': 'https://t6fywejiqffdjdwlbrslhhzg3e.appsync-api.eu-west-1.amazonaws.com/graphql',
-  'aws_appsync_region': 'eu-west-1',
-  'aws_appsync_authenticationType': 'AMAZON_COGNITO_USER_POOLS'
-}
+  aws_appsync_graphqlEndpoint: process.env.VUE_APP_APPSYNC_GRAPHQL_ENDPOINT,
+  aws_appsync_region: process.env.VUE_APP_APPSYNC_REGION,
+  aws_appsync_authenticationType: process.env.VUE_APP_APPSYNC_AUTHENTICATION_TYPE,
+};
 
 Amplify.configure(myAppConfig);
 
