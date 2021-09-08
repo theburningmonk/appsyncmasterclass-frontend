@@ -3,7 +3,7 @@
     <div class="flex container h-screen w-full">
       <SideNav />
 
-      <div class="w-1/2 h-full overflow-y-scroll">
+      <div class="w-1/2 h-full overflow-y-scroll" v-scroll:bottom="loadMore">
         <div class="px-5 py-3 border-b border-lighter flex items-center">
           <button @click="gotoHome()" class="rounded-full p-3 px-4 focus:outline-none hover:bg-lightblue">
             <i class="fas fa-arrow-left text-blue"></i>
@@ -158,6 +158,9 @@ export default {
       userProfile: 'profile',
       isMySelf: 'isSelf',
     }),
+    ...mapGetters('profilePage', {
+      nextToken: 'nextTokenTweets'
+    }),
     ...mapGetters('profilePage', [
       'profile', 
       'joinedDate',
@@ -170,7 +173,8 @@ export default {
     ]),
     ...mapActions('profilePage', [
       'loadProfile',
-      'loadTweets'
+      'loadTweets',
+      'loadMoreTweets'
     ]),
     ...mapActions('profilePage', { 
       follow: 'followUser',
@@ -221,6 +225,13 @@ export default {
         this.profile.followersCount++;
       })
     },
+
+    async loadMore() {
+      console.log('loading...');
+      await this.loadMoreTweets(10).catch(error => {
+        console.log(error);
+      })
+    }
   },
   async created() {
     await this.loginUserIfAlreadyAuthenticated();
