@@ -48,8 +48,8 @@ export default {
     await dispatch("getMyTimeline", 10);
   },
 
-  async getTweets({ commit }, { userId, limit }) {
-    const tweets = await getTweets(userId, limit);
+  async getTweets({ commit }, { userId, limit, nextToken }) {
+    const tweets = await getTweets(userId, limit, nextToken);
     commit("TWITTER_TIMELINE", tweets);
   },
 
@@ -93,5 +93,16 @@ export default {
   async getFollowing({ commit }, { userId, limit }) {
     const following = await getFollowing(userId, limit);
     commit("TWITTER_FOLLOWING", following);
+  },
+
+  async loadMoreTweets({ commit, getters }, limit) {
+    if (!getters.nextTokenTweets) return;
+    const tweets = await getTweets(getters.profile.id, limit, getters.nextTokenTweets);
+    commit("TWITTER_LOADMORE_TWEETS", tweets);
+  },
+  async loadMoreMyTimeline({ commit, getters }, limit) {
+    if (!getters.nextTokenTweets) return;
+    const timeline = await getMyTimeline(limit, getters.nextTokenTweets);
+    commit("TWITTER_LOADMORE_TWEETS", timeline);
   },
 };
