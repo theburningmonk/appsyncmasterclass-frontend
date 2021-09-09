@@ -3,7 +3,7 @@
     <div class="flex container h-screen w-full">
       <SideNav />
 
-      <div class="w-1/2 h-full overflow-y-scroll">
+      <div class="w-full h-full overflow-y-scroll">
         <!-- top navigation -->
         <div class="px-5 pt-3 flex items-center">
           <button @click="gotoProfile()" class="rounded-full p-3 px-4 focus:outline-none hover:bg-lightblue">
@@ -20,6 +20,7 @@
           <button class="w-1/2 text-dark font-bold border-b-2 border-blue px-10 py-4 hover:bg-lightblue">Following</button>
         </div>
 
+        <Loader :loading="loading" />
         <Users :users="profiles" />
       </div>      
 
@@ -34,16 +35,20 @@
 import SideNav from '../components/SideNav.vue'
 import SearchBar from '../components/SearchBar.vue'
 import Users from '../components/Users.vue'
+import Loader from '../components/Loader.vue'
 import { mapActions, mapGetters } from 'vuex';
 export default {
   name: "Following",
   components: {
     SideNav,
     SearchBar,
-    Users
+    Users,
+    Loader,
   },
   data() {
-    return { }
+    return {
+      loading: true,
+    }
   },
   computed: {
     ...mapGetters('profilePage', [
@@ -80,11 +85,13 @@ export default {
     }
   },
   async created() {
+    if (this.profiles.length >0) this.loading = false;
     // handle full page reload
     await this.loginUserIfAlreadyAuthenticated();
     const screenName = this.$route.params.screenName;
     await this.loadProfile(screenName);
-    await this.getFollowing({ userId: this.profile.id, limit:10 });
+    await this.getFollowing({ userId: this.profile.id, limit:10 })
+      .then(()=> this.loading = false);
   }
 }
 </script>
