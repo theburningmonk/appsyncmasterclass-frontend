@@ -116,10 +116,6 @@ export default {
         })
       }
     },
-    async sendReplay() {
-      await this.reply({ tweetId: this.tweet.id, text: this.text })
-      this.showReplyOverlay = false
-    }
   }
 }
 </script>
