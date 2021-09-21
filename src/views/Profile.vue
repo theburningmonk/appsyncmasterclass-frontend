@@ -79,8 +79,10 @@
                 <i class="fas fa-link text-dark align-text-bottom pt-1 mr-2" ></i>
                 <a :href="`${profile.website}`" target="_blank" class="text-dark">{{profile.website.replace('https://', '').replace('http://', '')}}</a>
               </div>
-              <i class="far fa-calendar-alt text-dark align-text-bottom pt-1 mr-2"></i>
-              <p class="text-dark">Joined {{joinedDate}}</p>
+              <div v-if="joinedDate" class="flex flex-row mr-4">
+                <i class="far fa-calendar-alt text-dark align-text-bottom pt-1 mr-2"></i>
+                <p class="text-dark">Joined {{joinedDate}}</p>
+              </div>
             </div>
             <div class="flex flex-row mt-1">
               <button @click="goToFollowing()" class="mr-4 flex flex-row hover:underline">
@@ -104,9 +106,9 @@
         <!-- tweets -->
         <Loader :loading="loading" />
         <div v-if="!loading && tweets.length === 0" class="flex flex-col items-center justify-center w-full pt-10">
-          <p class="font-bold text-lg">You haven’t Tweeted yet</p>
-          <p class="text-sm text-dark">When you post a Tweet, it’ll show up here.</p>
-          <button class="text-white bg-blue rounded-full font-semibold mt-4 px-4 py-2 hover:bg-darkblue">
+          <p class="font-bold text-lg"><span>{{ isSelf ? 'You': `@${profile.screenName}` }}</span> haven’t Tweeted yet</p>
+          <p class="text-sm text-dark">When <span>{{ isSelf ? 'you post': `@${profile.screenName} posts` }}</span> a Tweet, it’ll show up here.</p>
+          <button v-if="isSelf" class="text-white bg-blue rounded-full font-semibold mt-4 px-4 py-2 hover:bg-darkblue">
             <p class="hidden lg:block">Tweet now</p>
             <i class="fas fa-plus lg:hidden"></i>
           </button>
