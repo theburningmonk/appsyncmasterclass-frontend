@@ -10,4 +10,6 @@ export default {
   nextTokenFollowers: state => state.followers.nextToken,
   following: state => state.following.following,
   nextTokenFollowing: state => state.following.nextToken,
+  search: state => state.search.results,
+  nextTokenSearch: state => state.search.nextToken,
 };

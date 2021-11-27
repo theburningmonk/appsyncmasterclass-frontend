@@ -27,4 +27,13 @@ export default {
     state.tweets.tweets = [...state.tweets.tweets, ...tweets];
     state.tweets.nextToken = nextToken;
   },
+
+  TWITTER_SEARCH(state, searchResults) {
+    state.search = searchResults;
+  },
+  TWITTER_LOADMORE_SEARCH(state, searchResults) {
+    const { results, nextToken } = searchResults;
+    state.search.results = [...state.search.results, ...results];
+    state.search.nextToken = nextToken;
+  }
 };

@@ -4,6 +4,7 @@ import {
   like, unlike, retweet, unretweet, reply,
   follow, unfollow,
   getFollowers, getFollowing,
+  search,
 } from '../../../lib/backend'
 
 export default {
@@ -105,4 +106,21 @@ export default {
     const timeline = await getMyTimeline(limit, getters.nextTokenTweets);
     commit("TWITTER_LOADMORE_TWEETS", timeline);
   },
+
+  async loadSearch({ commit }, { query, mode, limit, nextToken }) {
+    const searchResults = await search(query, mode, limit, nextToken);
+    commit("TWITTER_SEARCH", searchResults);
+  },
+  resetSearch({ commit }) {
+    const searchResults = {
+      results: [],
+      nextToken: undefined,
+    }
+    commit("TWITTER_SEARCH", searchResults);
+  },
+  async loadMoreSearch({ commit, getters }, { query, mode, limit }) {
+    if (!getters.nextTokenSearch) return;
+    const searchResults = await search(query, mode, limit, getters.nextTokenSearch);
+    commit("TWITTER_LOADMORE_SEARCH", searchResults);
+  }
 };
