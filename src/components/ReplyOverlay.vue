@@ -23,7 +23,7 @@
               <p class="text-sm text-dark ml-2">.</p>
               <p class="text-sm text-dark ml-2">{{ tweet.createdAt | timeago }}</p>
             </div>
-            <p class="py-2">
+            <p class="py-2" v-linkify>
               {{ tweet.text }}
             </p>
           </div>

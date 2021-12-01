@@ -16,7 +16,7 @@
       <p v-if="tweet.inReplyToUsers && tweet.inReplyToUsers.length > 0" class="text-dark">
         Replying to {{ tweet.inReplyToUsers.map(x => `@${x.screenName}`).join(",") }}
       </p>
-      <p class="pb-2">
+      <p class="pb-2" v-linkify>
         {{ tweet.text }}
       </p>
       <div class="flex w-full">
