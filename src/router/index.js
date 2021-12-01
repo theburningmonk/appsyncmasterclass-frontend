@@ -54,6 +54,15 @@ const routes = [
     meta: { protected: true }
   },
   {
+    path: '/hashtag',
+    name: 'Hashtag',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "hashtag" */ '../views/Hashtag.vue'),
+    meta: { protected: true }
+  },
+  {
     path: '/:screenName',
     name: 'Profile',
     // route level code-splitting
