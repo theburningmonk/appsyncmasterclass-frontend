@@ -35,5 +35,14 @@ export default {
     const { results, nextToken } = searchResults;
     state.search.results = [...state.search.results, ...results];
     state.search.nextToken = nextToken;
+  },
+
+  TWITTER_SEARCH_HASHTAG(state, searchResults) {
+    state.search = searchResults;
+  },
+  TWITTER_LOADMORE_SEARCH_HASHTAG(state, searchResults) {
+    const { results, nextToken } = searchResults;
+    state.search.results = [...state.search.results, ...results];
+    state.search.nextToken = nextToken;
   }
 };

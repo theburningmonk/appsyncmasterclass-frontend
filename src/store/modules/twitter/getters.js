@@ -12,4 +12,6 @@ export default {
   nextTokenFollowing: state => state.following.nextToken,
   search: state => state.search.results,
   nextTokenSearch: state => state.search.nextToken,
+  searchHashTag: state => state.search.results,
+  nextTokenSearchHashTag: state => state.search.nextToken,
 };
