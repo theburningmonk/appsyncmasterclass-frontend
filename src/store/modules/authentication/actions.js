@@ -5,12 +5,15 @@ export default {
   loginUser({ commit }, user) {
     commit("USER_LOGIN", user);
   },
-  async logoutUser({ commit }) {
+  async logoutUser({ commit, dispatch }) {
     await Auth.signOut({
       global: true
     })
     commit("USER_LOGOUT");
-    commit('signup/SIGNUP_STEP_SET', '', { root: true });
+    dispatch("signup/setSignupStep", '', { root: true });
+    dispatch("twitter/unsubscribeNotifications", null, { root: true });
+    dispatch("twitter/resetState", null, { root: true });
+    dispatch("profilePage/resetState", null, { root: true });
     router.push('/')
   },
   async signUp({ commit }, form) {
@@ -34,6 +37,7 @@ export default {
     const user = await Auth.signIn(form.email, form.password);
     await dispatch("loginUser", user);
     await dispatch("twitter/setProfile", null, { root: true });
+    await dispatch("twitter/subscribeNotifications", null, { root: true });
     router.push({ name: 'Home' });
   },
 
@@ -43,6 +47,7 @@ export default {
       console.log('user is logged in already')
       await dispatch("loginUser", user);
       await dispatch("twitter/setProfile", null, { root: true });
+      await dispatch("twitter/subscribeNotifications", null, { root: true });
     }
   },
 };

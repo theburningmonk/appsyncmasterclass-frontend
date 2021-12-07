@@ -14,4 +14,8 @@ export default {
   nextTokenSearch: state => state.search.nextToken,
   searchHashTag: state => state.search.results,
   nextTokenSearchHashTag: state => state.search.nextToken,
+  all: state => state.notifications.all,
+  mentions: state => state.notifications.mentions,
+  newNotifications: state => state.notifications.newNotifications,
+  subscription: state => state.notifications.subscription,
 };
