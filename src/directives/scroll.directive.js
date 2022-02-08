@@ -2,7 +2,12 @@ export default {
   bind: function (el, binding) {
     if (typeof binding.value !== 'function') return;
     el.__callback__ = (event) => {
-      if (binding.arg == 'bottom') {
+      if (binding.arg == 'top') {
+        if (!el) return;
+        const isTop = el.scrollTop==0;
+        if (!isTop) return;
+        binding.value(event, el);
+      } else if (binding.arg == 'bottom') {
         if (!el) return;
         const isBottom = Math.ceil(el.offsetHeight + el.scrollTop) >= el.scrollHeight;
         if (!isBottom) return;
