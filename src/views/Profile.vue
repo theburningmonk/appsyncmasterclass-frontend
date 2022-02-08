@@ -49,8 +49,8 @@
               <button class="text-xs md:text-base md:ml-auto mr-1 md:mr-3 text-blue font-bold px-3 py-1 md:px-3 md:py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
                 <i class="fas fa-ellipsis-h"></i>
               </button>
-              <button class="ml-auto mr-3 text-blue font-bold px-3 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
-                <i class="fas fa-envelope"></i>
+              <button v-if="profile.followedBy" class="text-xs md:text-base md:ml-auto mr-1 md:mr-3 text-blue font-bold px-3 py-1 md:px-3 md:py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+                <i @click="sendMessage()" class="fas fa-envelope"></i>
               </button>
               <button v-if="!profile.following"
                       @click="followUser()" 
@@ -199,6 +199,15 @@ export default {
     gotoHome() {
       this.$router.push({
         name: 'Home',
+      })
+    },
+    sendMessage() {
+      const conversationId = `${this.userProfile.id}_${this.profile.id}`
+      this.$router.push({
+        name: 'Messages',
+        params: {
+          conversation: conversationId
+        }
       })
     },
     goToFollowing() {
