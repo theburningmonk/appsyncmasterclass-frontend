@@ -1,6 +1,6 @@
 <template>
-  <div id="app" class="flex container h-screen w-full">
-    <div class="flex container h-screen w-full">
+  <div id="app" class="flex container h-full w-full">
+    <div class="flex container h-full w-full">
       <SideNav />
 
       <div class="w-full md:w-1/2 h-full overflow-y-scroll" v-scroll:bottom="loadMore">
@@ -18,7 +18,6 @@
           </div>
         </div>
 
-        <!-- profile details -->
         <div class="flex flex-col">
           <div class="flex flex-row justify-evenly">
             <button class="w-full text-dark font-bold border-b-2 p-1 md:px-8 md:py-4 hover:bg-lightblue">Top</button>
@@ -53,6 +52,7 @@ import SideNav from '../components/SideNav.vue'
 import Results from '../components/Results.vue'
 import Loader from '../components/Loader.vue'
 import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'Search',
   components: {
@@ -69,9 +69,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('twitter', [
-      'profile', 
-    ]),
     ...mapGetters('twitter', {
       results: 'search'
     }),
@@ -84,9 +81,6 @@ export default {
       'loadSearch',
       'loadMoreSearch',
       'resetSearch'
-    ]),
-    ...mapActions('profilePage', [
-      'loadProfile',
     ]),
     gotoHome() {
       this.$router.push({

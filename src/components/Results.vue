@@ -12,7 +12,7 @@
 import Tweet from './Tweet.vue'
 import Retweet from './Retweet.vue'
 import User from './User.vue'
-import { mapGetters } from 'vuex';
+
 export default {
   name: 'Results',
   props: ['results'],
@@ -20,14 +20,6 @@ export default {
     Tweet,
     Retweet,
     User
-  },
-  computed: {
-    ...mapGetters('twitter', {
-      nextToken: 'nextTokenSearch'
-    }),
-    ...mapGetters('twitter', [
-      'profile',
-    ]),    
   }
 }
 </script>

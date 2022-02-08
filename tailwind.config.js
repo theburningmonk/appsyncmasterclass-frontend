@@ -7,6 +7,9 @@ module.exports = {
     container: {
       center: true
     },
+    maxHeight: {
+      'full': '85%',
+    },
     extend: {
       fontFamily: {
         sans: [...defaultTheme.fontFamily.sans]

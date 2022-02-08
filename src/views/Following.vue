@@ -1,9 +1,9 @@
 <template>
-  <div id="app" class="flex container h-screen w-full">
-    <div class="flex container h-screen w-full">
+  <div id="app" class="flex container h-full w-full">
+    <div class="flex container h-full w-full">
       <SideNav />
 
-      <div class="w-full h-full overflow-y-scroll">
+      <div class="w-full md:w-1/2 h-full overflow-y-scroll">
         <!-- top navigation -->
         <div class="px-5 pt-3 flex items-center">
           <button @click="gotoProfile()" class="rounded-full p-3 px-4 focus:outline-none hover:bg-lightblue">
