@@ -22,11 +22,15 @@
           </span>
           <p class="text-lg ml-4 text-left hidden xl:block" :class="$route.name == 'Notifications'?'font-bold':''"> Notifications</p>
         </button>
-        <button class="focus:outline-none hover:text-blue flex items-center px-4 py-2 hover:bg-transparent md:hover:bg-lightblue rounded-full mr-auto mb-1">
-          <i class="text-xl far fa-envelope" aria-hidden="true"></i>
-          <p class="text-lg ml-4 text-left hidden xl:block"> Messages</p>
-        </button>
-        <button class="focus:outline-none hover:text-blue flex items-center px-4 py-2 hover:bg-transparent md:hover:bg-lightblue rounded-full mr-auto mb-1">
+        <button @click="open('Messages')" class="focus:outline-none hover:text-blue flex items-center px-4 py-2 hover:bg-transparent md:hover:bg-lightblue rounded-full mr-auto mb-1">
+          <i class="fa-envelope" :class="$route.name == 'Messages'?'text-2xl fas':'text-xl far'" aria-hidden="true"></i>
+          <span v-if="this.newMessages > 0" class="absolute -mt-6 ml-2">
+            <div class="inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-blue text-white">
+              {{ this.newMessages }}
+            </div>
+          </span>
+          <p class="text-lg ml-4 text-left hidden xl:block" :class="$route.name == 'Messages'?'font-bold':''"> Messages</p>
+        </button><button class="focus:outline-none hover:text-blue flex items-center px-4 py-2 hover:bg-transparent md:hover:bg-lightblue rounded-full mr-auto mb-1">
           <i class="text-xl far fa-bookmark" aria-hidden="true"></i>
           <p class="text-lg ml-4 text-left hidden xl:block"> Bookmarks</p>
         </button>
@@ -42,7 +46,7 @@
           <p class="text-lg ml-4 text-left hidden xl:block"> More</p>
         </button>
       </div>
-      
+
       <button @click="open('Home')" class="text-white bg-blue rounded-full font-semibold h-12 lg:h-auto w-12 xl:w-full hover:bg-darkblue p-3">
         <p class="hidden xl:block">Tweet</p>
         <i class="fas fa-plus xl:hidden"></i>
@@ -90,6 +94,7 @@ export default {
     ...mapGetters('twitter', [
       'profile',
       'newNotifications',
+      'newMessages'
     ]),
   },
   methods: {
