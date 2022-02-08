@@ -47,6 +47,7 @@ export default {
   TWITTER_NOTIFICATIONS_SUBSCRIBE(state, subscription) {
     state.notifications.subscription = subscription;
     state.notifications.newNotifications = 0;
+    state.notifications.messages.newMessages = 0;
   },
   TWITTER_NOTIFICATIONS_UNSUBSCRIBE(state) {
     let subscription = state.notifications.subscription;
@@ -65,6 +66,56 @@ export default {
   },
   TWITTER_NOTIFICATIONS_RESET(state) {
     state.notifications.newNotifications = 0;
+  },
+
+  TWITTER_CONVERSATIONS_LOAD(state, { conversations, nextToken }) {
+    state.notifications.messages.conversations = conversations;
+    state.notifications.messages.nextToken = nextToken;
+  },
+  TWITTER_MESSAGES_NEW(state, notification) {
+    let set = state.notifications.messages.conversationsSet;
+    let c = state.notifications.messages.active.conversation;
+    const conversationId = state.profile.id < notification.otherUserId
+      ? `${state.profile.id}_${notification.otherUserId}`
+      : `${notification.otherUserId}_${state.profile.id}`;
+
+    // if conversation is active we ignore this
+    const notActive = c => (!c || c.id != conversationId);
+    if (notActive(c)) {
+      if (!set.has(conversationId)) {
+        set.add(conversationId);
+      }
+      state.notifications.messages.newMessages = state.notifications.messages.newMessages + 1;
+      // trigger getters
+      state.notifications.messages.conversations = [...state.notifications.messages.conversations];
+    }
+  },
+  TWITTER_MESSAGES_RESET(state) {
+    state.notifications.messages.newMessages = 0;
+  },
+  TWITTER_MESSAGES_LOAD(state, { messages, nextToken }) {
+    state.notifications.messages.active.messages = messages;
+    state.notifications.messages.active.nextTokenMessages = nextToken;
+  },
+  TWITTER_LOADMORE_MESSAGES(state, { messages, nextToken }) {
+    state.notifications.messages.active.messages = [...state.notifications.messages.active.messages, ...messages];
+    state.notifications.messages.active.nextTokenMessages = nextToken;
+  },
+  TWITTER_MESSAGES_SEND(state, newMessage) {
+    state.notifications.messages.active.messages = [...state.notifications.messages.active.messages, newMessage];
+  },
+  TWITTER_CONVERSATION_ACTIVE_SET(state, conversation) {
+    let set = state.notifications.messages.conversationsSet;
+    if (set && conversation && set.has(conversation.id)) {
+      set.delete(conversation.id);
+      // we had a hit enough to clear all notifications in this implementation 
+      // we still can show there's messages for other conversations with new messages just not how many messages
+      state.notifications.messages.newMessages = 0;
+    }
+    state.notifications.messages.conversationsSet = set;
+    state.notifications.messages.active.conversation = conversation;
+    state.notifications.messages.active.messages = [];
+    state.notifications.messages.active.nextTokenMessages = undefined;
   },
 
   TWITTER_RESET_STATE(state) {
@@ -95,6 +146,17 @@ export default {
         mentions: [],
         newNotifications: 0,
         subscription: undefined,
+        messages: {
+          conversations: [],
+          nextToken: undefined,
+          newMessages: 0,
+          conversationsSet: new Set(),
+          active: {
+            conversation: undefined,
+            messages: [],
+            nextTokenMessages: undefined,
+          },
+        },
       },
     });
   }

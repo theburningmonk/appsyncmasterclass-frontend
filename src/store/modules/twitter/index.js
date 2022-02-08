@@ -29,6 +29,17 @@ const initialState = {
     mentions: [],
     newNotifications: 0,
     subscription: undefined,
+    messages: {
+      conversations: [],
+      nextToken: undefined,
+      newMessages: 0,
+      conversationsSet: new Set(),
+      active: {
+        conversation: undefined,
+        messages: [],
+        nextTokenMessages: undefined,
+      },
+    },
   },
 };
 const state = () => ({...initialState});

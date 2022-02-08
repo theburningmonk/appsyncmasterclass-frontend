@@ -7,6 +7,9 @@ import {
   search,
   getHashTag,
   getOnNotifiedSubscription,
+  listConversations,
+  getDirectMessages,
+  sendDirectMessage
 } from '../../../lib/backend'
 
 export default {
@@ -109,9 +112,14 @@ export default {
     commit("TWITTER_LOADMORE_TWEETS", timeline);
   },
 
-  async loadSearch({ commit }, { query, mode, limit, nextToken }) {
-    const searchResults = await search(query, mode, limit, nextToken);
+  async loadSearch({ commit }, { query, mode, limit }) {
+    const searchResults = await search(query, mode, limit);
     commit("TWITTER_SEARCH", searchResults);
+  },
+  async loadMoreSearch({ commit, getters }, { query, mode, limit }) {
+    if (!getters.nextTokenSearch) return;
+    const searchResults = await search(query, mode, limit, getters.nextTokenSearch);
+    commit("TWITTER_LOADMORE_SEARCH", searchResults);
   },
   resetSearch({ commit }) {
     const searchResults = {
@@ -120,16 +128,17 @@ export default {
     }
     commit("TWITTER_SEARCH", searchResults);
   },
-  async loadMoreSearch({ commit, getters }, { query, mode, limit }) {
-    if (!getters.nextTokenSearch) return;
-    const searchResults = await search(query, mode, limit, getters.nextTokenSearch);
-    commit("TWITTER_LOADMORE_SEARCH", searchResults);
-  },
 
-  async loadSearchHashTag({ commit }, { query, mode, limit, nextToken }) {
-    const q = query || " "; // mandatory
-    const searchResults = await getHashTag(q, mode, limit, nextToken);
+  async loadSearchHashTag({ commit }, { query, mode, limit }) {
+    const q = query || ' '; // mandatory field
+    const searchResults = await getHashTag(q, mode, limit);
     commit("TWITTER_SEARCH_HASHTAG", searchResults);
+  },
+  async loadMoreSearchHashTag({ commit, getters }, { query, mode, limit }) {
+    if (!getters.nextTokenSearch) return;
+    const q = query || ' '; // mandatory field
+    const searchResults = await getHashTag(q, mode, limit, getters.nextTokenSearch);
+    commit("TWITTER_LOADMORE_SEARCH_HASHTAG", searchResults);
   },
   resetSearchHashTag({ commit }) {
     const searchResults = {
@@ -138,22 +147,33 @@ export default {
     }
     commit("TWITTER_SEARCH_HASHTAG", searchResults);
   },
-  async loadMoreSearchHashTag({ commit, getters }, { query, mode, limit }) {
-    if (!getters.nextTokenSearchHashTag) return;
-    const q = query || " "; // mandatory
-    const searchResults = await getHashTag(q, mode, limit, getters.nextTokenSearchHashTag);
-    commit("TWITTER_LOADMORE_SEARCH_HASHTAG", searchResults);
-  },
 
   async subscribeNotifications({ commit, getters, dispatch }) {
     if (!getters.profile.id || getters.subscription) return;
+    const isFromActiveConversation = (userId, notification, activeConversation) => {
+      const conversationId = userId < notification.otherUserId
+        ? `${userId}_${notification.otherUserId}`
+        : `${notification.otherUserId}_${userId}`
+      return activeConversation && activeConversation.id == conversationId;
+    }
 
     const userId = getters.profile.id;
     const subscription = getOnNotifiedSubscription(userId).subscribe({
       next: async ({ value }) => {
         const notification = value.data.onNotified;
-        if (notification.type !== 'DMed') {
-          await dispatch("getMyTimeline", 10); 
+        if (notification.type == 'DMed') {
+          await dispatch("loadConversations", 10);
+          // only load messages if they are from the active conversation
+          if (isFromActiveConversation(userId, notification, getters.conversation)) {
+            await dispatch("getDirectMessages", {
+              limit: 10,
+              message: notification.message,
+              otherUserId: notification.otherUserId,
+            });
+          }
+          commit("TWITTER_MESSAGES_NEW", notification);
+        } else {
+          await dispatch("getMyTimeline", 10); //cheeky update to see latest data
           commit("TWITTER_NOTIFICATIONS_NEW", notification);
         }
       },
@@ -168,7 +188,33 @@ export default {
     commit("TWITTER_NOTIFICATIONS_UNSUBSCRIBE");
   },
 
+  async loadConversations({ commit }, limit) {
+    const conversations = await listConversations(limit);
+    commit("TWITTER_CONVERSATIONS_LOAD", conversations);
+  },
+  resetMessages({ commit }) {
+    commit("TWITTER_MESSAGES_RESET");
+  },
+  async getDirectMessages({ commit }, { otherUserId, limit, nextToken }) {
+    const messages = await getDirectMessages(otherUserId, limit, nextToken);
+    commit("TWITTER_MESSAGES_LOAD", messages);
+  },
+  async loadMoreDirectMessages({ commit, getters }, { otherUserId, limit }) {
+    if (!getters.nextTokenMessages) return;
+    const messages = await getDirectMessages(otherUserId, limit, getters.nextTokenMessages);
+    commit("TWITTER_LOADMORE_MESSAGES", messages);
+  },
+  async sendDirectMessage({ commit, dispatch }, { message, otherUserId }) {
+    await sendDirectMessage(message, otherUserId);
+    await dispatch("loadConversations", 10);
+    const messages = await getDirectMessages(otherUserId, 10);
+    commit("TWITTER_MESSAGES_LOAD", messages);
+  },
+  setActiveConversation({ commit }, conversation) {
+    commit("TWITTER_CONVERSATION_ACTIVE_SET", conversation);
+  },
+
   resetState({ commit }) {
     commit("TWITTER_RESET_STATE");
-  }
+  },
 };
