@@ -7,19 +7,20 @@ import router from './router';
 import store from './store';
 import directives from './directives';
 import filters from './filters';
+import './registerServiceWorker'
 
 Amplify.configure({
   Auth: {
-    region: 'eu-west-1',
-    userPoolId: 'eu-west-1_G0S2EuViF',
-    userPoolWebClientId: '2elpvum0k1l6qpf0iqgeh0jh4q',
+    region: 'us-east-2',
+    userPoolId: 'us-east-2_UnB8qFnyz',
+    userPoolWebClientId: '5eia2sdmc7omer2s27q4uavb4f',
     mandatorySignIn: true
   }
 })
 
 const myAppConfig = {
-  'aws_appsync_graphqlEndpoint': 'https://t6fywejiqffdjdwlbrslhhzg3e.appsync-api.eu-west-1.amazonaws.com/graphql',
-  'aws_appsync_region': 'eu-west-1',
+  'aws_appsync_graphqlEndpoint': 'https://peytuqrgajgxnbzkbsizvcbpfe.appsync-api.us-east-2.amazonaws.com/graphql',
+  'aws_appsync_region': 'us-east-2',
   'aws_appsync_authenticationType': 'AMAZON_COGNITO_USER_POOLS'
 }
 
