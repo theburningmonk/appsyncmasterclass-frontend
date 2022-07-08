@@ -1,5 +1,15 @@
 import { Auth } from 'aws-amplify'
+import AWS from 'aws-sdk'
 import router from '../../../router'
+
+AWS.config.region = 'eu-west-1'
+
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({  
+  // this should come from env vars
+  IdentityPoolId: 'eu-west-1:1cad6a06-329f-4bcb-b4ab-66746bb191e7'
+})
+
+const FirehoseClient = new AWS.Firehose()
 
 export default {
   loginUser({ commit }, user) {
@@ -50,4 +60,14 @@ export default {
       await dispatch("twitter/subscribeNotifications", null, { root: true });
     }
   },
+
+  async trackEvent(_, event) {    
+    await FirehoseClient.putRecordBatch({
+      // this should come from env vars
+      DeliveryStreamName: 'appsyncmasterclass-backend-dev-FirehoseStream-ax7efZjaFoxz',
+      Records: [{
+        Data: JSON.stringify(event)
+      }]
+    }).promise()
+  }
 };

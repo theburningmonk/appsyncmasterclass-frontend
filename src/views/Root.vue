@@ -229,7 +229,8 @@ export default {
       'confirmSignUp',
       'signInUser',
       'resendSignUp',
-      'logoutUser'
+      'logoutUser',
+      'trackEvent'
     ]),
     async signMeUp() {
       try {
@@ -281,7 +282,14 @@ export default {
         console.log('error resending verification code:', error)
       }
     },
-    setSignUpStep(step){
+    async setSignUpStep(step) {
+      await this.trackEvent({ 
+        eventType: 'funnel',
+        detail: {
+          signUpStep: step
+        }
+      })
+
       switch(step){
         case 'step2':
           if (!this.name || !this.email || !this.birthdate) {
