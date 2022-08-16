@@ -10,6 +10,8 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: IDENTITY_POOL_ID 
 })
 
+const FirehoseClient = new AWS.Firehose();
+
 export default {
   loginUser({ commit }, user) {
     commit("USER_LOGIN", user);
@@ -59,4 +61,14 @@ export default {
       await dispatch("twitter/subscribeNotifications", null, { root: true });
     }
   },
+
+  async trackEvent(_, event) {
+    const response = await FirehoseClient.putRecord({
+      DeliveryStreamName: STREAM_NAME,
+      Record: {
+        Data: JSON.stringify(event)
+      }
+    }).promise();
+    console.log(response);
+  }
 };
