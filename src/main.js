@@ -11,17 +11,17 @@ import './registerServiceWorker'
 
 Amplify.configure({
   Auth: {
-    region: 'us-east-2',
-    userPoolId: 'us-east-2_UnB8qFnyz',
-    userPoolWebClientId: '5eia2sdmc7omer2s27q4uavb4f',
+    region: process.env.VUE_APP_AUTH_REGION,
+    userPoolId: process.env.VUE_APP_AUTH_USER_POOL_ID,
+    userPoolWebClientId: process.env.VUE_APP_AUTH_USER_POOL_WEB_CLIENT_ID,
     mandatorySignIn: true
   }
 })
 
 const myAppConfig = {
-  'aws_appsync_graphqlEndpoint': 'https://peytuqrgajgxnbzkbsizvcbpfe.appsync-api.us-east-2.amazonaws.com/graphql',
-  'aws_appsync_region': 'us-east-2',
-  'aws_appsync_authenticationType': 'AMAZON_COGNITO_USER_POOLS'
+  'aws_appsync_graphqlEndpoint': process.env.VUE_APP_AWS_APPSYNC_GRAPHQL_ENDPOINT,
+  'aws_appsync_region': process.env.VUE_APP_AWS_APPSYNC_REGION,
+  'aws_appsync_authenticationType': process.env.VUE_APP_AWS_APPSYNC_AUTHENTICATION_TYPE
 }
 
 Amplify.configure(myAppConfig);
