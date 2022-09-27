@@ -13,7 +13,7 @@
         <!-- original Tweet -->
         <div class="p-3 flex flex-row">
           <div class="flex-none mr-4">
-            <img :src="`${tweet.profile.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full flex-none"/>
+            <img :src="`${tweet.profile.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full flex-none" loading="lazy"/>
           </div>
 
           <div class="w-full">
@@ -32,7 +32,7 @@
         <!-- reply Tweet -->
         <div class="p-3 flex flex-row">
           <div class="flex-none mr-4">
-            <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full flex-none"/>
+            <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full flex-none" loading="lazy"/>
           </div>
 
           <div class="w-full mb-2">

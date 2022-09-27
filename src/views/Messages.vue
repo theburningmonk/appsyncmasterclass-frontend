@@ -24,7 +24,7 @@
               <div class="w-full p-2 pt-1 pb-1 md:p-4 md:pt-2 md:pb-2 border-b hover:bg-lightest flex" :style="hasNewMessages(conversation)?'background-color:#e1f5fe;':''" @click="selectConversation(conversation)">
                 <div class="flex-none mr-2 md:mr-4 pt-1">
                   <a :href="`#/${conversation.otherUser.screenName}`">
-                    <img :src="`${conversation.otherUser.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full flex-none"/>
+                    <img :src="`${conversation.otherUser.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full flex-none" loading="lazy"/>
                   </a>
                 </div>
                 <div class="w-full truncate">
@@ -76,7 +76,7 @@
           </button>
           <div class="flex-none mr-4">            
             <a :href="`#/${active.otherUser.screenName}`">
-              <img :src="`${active.otherUser.imageUrl || 'default_profile.png'}`" class="flex-none w-6 h-6 rounded-full mt-2"/>
+              <img :src="`${active.otherUser.imageUrl || 'default_profile.png'}`" class="flex-none w-6 h-6 rounded-full mt-2" loading="lazy"/>
             </a>
           </div>
           <div class="w-full flex flex-col">
@@ -107,7 +107,7 @@
                   <div class="flex justify-start">
                     <div class="flex-none mr-4">
                       <a :href="`#/${message.from.screenName}`">
-                        <img :src="`${message.from.imageUrl || 'default_profile.png'}`" class="object-cover h-8 w-8 rounded-full self-end"/>
+                        <img :src="`${message.from.imageUrl || 'default_profile.png'}`" class="object-cover h-8 w-8 rounded-full self-end" loading="lazy"/>
                       </a>
                     </div>
                     <div class="ml-2 py-3 px-4 bg-lighter rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-black">

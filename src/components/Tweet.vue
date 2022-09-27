@@ -2,7 +2,7 @@
   <div v-if="tweet.profile" class="w-full p-2 pt-1 pb-1 md:p-4 md:pt-2 md:pb-2 border-b hover:bg-lightest flex">
     <div class="flex-none mr-2 md:mr-4 pt-1">
       <a :href="`#/${tweet.profile.screenName}`">
-        <img :src="`${tweet.profile.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full flex-none"/>
+        <img :src="`${tweet.profile.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full flex-none" loading="lazy"/>
       </a>
     </div>
     <div class="w-full">

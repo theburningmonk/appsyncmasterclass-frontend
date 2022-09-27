@@ -30,7 +30,7 @@
               <i class="text-2xl fas fa-camera text-white"></i>
               <input @change="fileChange" ref="fileInput" accept="image/jpeg" type="file" class="hidden">
             </button>
-            <img class="w-32 h-32 rounded-full" :src="newImage"/>
+            <img class="w-32 h-32 rounded-full" :src="newImage" loading="lazy"/>
           </div>
         </div>
       </div>

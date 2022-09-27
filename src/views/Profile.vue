@@ -18,7 +18,7 @@
         <div class="border-b-1 border-lighter flex"
             style="height:200px; display:block">
           <div v-if="profile.backgroundImageUrl" class="h-full max-h-full">
-            <img :src="profile.backgroundImageUrl" class="h-full w-full object-cover"/>
+            <img :src="profile.backgroundImageUrl" class="h-full w-full object-cover" loading="lazy"/>
           </div>
           <div v-if="!profile.backgroundImageUrl"
               class="bg-gray-400 h-full max-h-full">          
@@ -28,7 +28,8 @@
         <!-- profile details -->
         <div class="py-3 flex flex-col">
           <div class="px-3 flex flex-row justify-between">
-            <img v-if="profile" :src="profile.imageUrl" 
+            <img v-if="profile" :src="profile.imageUrl"
+                loading="lazy" 
                 class="w-24 h-24 md:w-32 md:h-32 rounded-full border-white"
                 style="margin-top: -80px; border-width: 6px;"/>
 

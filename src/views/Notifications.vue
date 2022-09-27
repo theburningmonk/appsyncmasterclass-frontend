@@ -34,7 +34,7 @@
                   <i v-if="notification.type=='Retweeted'" class="pt-1 fas fa-retweet text-green-500"></i>
                   
                   <a :href="`#/${profile.screenName}`">
-                    <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="h-8 w-8 ml-2 rounded-full flex-none"/>
+                    <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="h-8 w-8 ml-2 rounded-full flex-none" loading="lazy"/>
                   </a>
                 </div>
                 <div class="flex items-center w-full">
@@ -56,7 +56,7 @@
               <div class="w-full">
                 <div class="flex flex-row mr-2 md:mr-4 pt-1 text-2xl">
                   <a :href="`#/${profile.screenName}`">
-                    <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="h-8 w-8 ml-2 rounded-full flex-none"/>
+                    <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="h-8 w-8 ml-2 rounded-full flex-none" loading="lazy"/>
                   </a>
                 </div>
                 <div class="flex items-center w-full">

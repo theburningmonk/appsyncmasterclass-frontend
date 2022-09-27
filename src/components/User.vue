@@ -2,7 +2,7 @@
   <div class="w-full px-4 py-2 border-b hover:bg-lightest flex flex-row">
     <div class="flex-none">
       <a :href="`#/${user.screenName}`">
-        <img :src="`${user.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full"/>
+        <img :src="`${user.imageUrl || 'default_profile.png'}`" class="h-12 w-12 rounded-full" loading="lazy"/>
       </a>
     </div>
     <div class="ml-2 flex flex-col w-full">

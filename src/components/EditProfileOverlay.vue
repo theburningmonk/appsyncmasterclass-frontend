@@ -27,7 +27,7 @@
           </button>
 
           <div v-if="backgroundImageUrl" class="h-full max-h-full">
-            <img :src="backgroundImageUrl" class="h-full w-full object-cover"/>
+            <img :src="backgroundImageUrl" class="h-full w-full object-cover" loading="lazy"/>
           </div>
           <div v-if="!backgroundImageUrl" class="bg-gray-400 h-full max-h-full"></div>
         </div>
@@ -41,7 +41,7 @@
               <input @change="fileChange('imageUrlFileInput', 'imageUrl')" ref="imageUrlFileInput" accept="image/jpeg" type="file" class="hidden">
             </button>
 
-            <img :src="imageUrl" class="w-32 h-32 rounded-full border-4 border-white"/>
+            <img :src="imageUrl" class="w-32 h-32 rounded-full border-4 border-white" loading="lazy"/>
           </div>
 
           <div class="w-full bg-lightest border-b-2 border-dark mb-6 py-1 px-3">

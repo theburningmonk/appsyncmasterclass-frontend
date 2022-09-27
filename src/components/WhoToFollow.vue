@@ -4,7 +4,7 @@
       <p class="text-lg font-bold">Who to follow</p>
     </div>
     <button v-for="suggestion in followSuggestions" :key="suggestion.id" class="w-full flex hover:bg-lighter p-3 border-t border-lighter">
-      <img :src="suggestion.imageUrl" class="w-12 h-12 rounded-full" />
+      <img :src="suggestion.imageUrl" class="w-12 h-12 rounded-full" loading="lazy" />
       <div class="hidden lg:block ml-4">
         <p class="text-left text-sm font-bold leading-tight">{{ suggestion.name }}</p>
         <p class="text-left text-sm leading-tight text-dark">{{ suggestion.screenName }}</p>

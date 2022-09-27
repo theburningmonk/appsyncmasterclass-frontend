@@ -54,7 +54,7 @@
     </div>
     <div class="xl:w-full relative mt-2 w-10 h-10">
       <button @click="dropdown = !dropdown" class="flex items-center w-full hover:bg-lightblue rounded-full">
-        <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="w-10 h-10 rounded-full" />
+        <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="w-10 h-10 rounded-full" loading="lazy" />
         <div class="hidden xl:block ml-4 truncate">
           <div class="text-left text-sm font-bold leading-tight truncate">{{ profile.name }}</div>
           <div class="text-left text-sm leading-tight text-dark truncate">{{ profile.ScreenName }}</div>
@@ -63,7 +63,7 @@
       </button>
       <div v-if="dropdown === true" class="absolute bottom-0 left-0 w-64 rounded-lg shadow-md border-lightest bg-white mb-16">
         <button @click="dropdown = false" class="p-3 flex items-center w-full hover:bg-lightest">
-          <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="w-10 h-10 rounded-full" />
+          <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="w-10 h-10 rounded-full" loading="lazy" />
           <div class="ml-4">
             <p class="text-left text-sm font-bold leading-tight">{{ profile.name }}</p>
             <p class="text-left text-sm leading-tight text-dark">{{ profile.ScreenName }}</p>

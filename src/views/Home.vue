@@ -11,7 +11,7 @@
       </div>
       <div class="px-2 py-3 border-b-8 border-lighter flex">
         <div class="flex-none mr-4">
-        <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="flex-none w-12 h-12 rounded-full"/>
+        <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="flex-none w-12 h-12 rounded-full" loading="lazy"/>
         </div>
         <div class="w-full relative">
           <textarea ref="input" v-model="tweet.text" placeholder="What's happening?" class="w-full focus:outline-none mt-3 pb-0 md:pb-3"></textarea>
